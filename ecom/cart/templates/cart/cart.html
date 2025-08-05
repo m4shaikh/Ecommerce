@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  /* Cart Container Styling */
+  .cart-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  .cart-container h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #333;
+  }
+  /* Cart Table Styling */
+  .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+  }
+  .cart-table th,
+  .cart-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+  }
+  .cart-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+  }
+  .cart-product-image {
+    width: 50px;
+    height: auto;
+    margin-right: 1rem;
+    vertical-align: middle;
+  }
+  /* Quantity Controls */
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+  }
+  .quantity-controls span {
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+  }
+  .btn-quantity {
+    background: #0d6efd;
+    color: #fff;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .btn-quantity:hover {
+    background: #0b5ed7;
+  }
+  /* Remove Button */
+  .btn-remove {
+    background: transparent;
+    color: #dc3545;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid #dc3545;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .btn-remove:hover {
+    background: #dc3545;
+    color: #fff;
+  }
+  /* Cart Summary */
+  .cart-summary {
+    text-align: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .btn-checkout {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    background: #28a745;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  .btn-checkout:hover {
+    background: #218838;
+  }
+  /* Empty Cart */
+  .empty-cart {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: 1.3rem;
+    color: #777;
+  }
+  .btn-continue {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    background: #0d6efd;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  .btn-continue:hover {
+    background: #0b5ed7;
+  }
+</style>
+
+<div class="cart-container">
+    <h1>Shopping Cart</h1>
+    
+    {% if cart_items %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>
+                    <img src="{{ item.product.image.url }}" 
+                         alt="{{ item.product.name }}"
+                         class="cart-product-image">
+                    {{ item.product.name }}
+                </td>
+                <td>
+                    <div class="quantity-controls">
+                        <form action="{% url 'cart:remove_cart' item.product.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-quantity">−</button>
+                        </form>
+                        
+                        <span>{{ item.quantity }}</span>
+                        
+                        <form action="{% url 'cart:cart_add' item.product.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn-quantity">+</button>
+                        </form>
+                    </div>
+                </td>
+                <td>${{ item.product.price }}</td>
+                <td>${{ item.sub_total }}</td>
+                <td>
+                    <a href="{% url 'cart:full_remove' item.product.id %}" class="btn-remove">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="cart-summary">
+        Total: ${{ total }}<br>
+        <a href="{% url 'orders:order_create' %}" class="btn-checkout">Proceed to Checkout</a>
+    </div>
+    
+    {% else %}
+    <div class="empty-cart">
+        <p>Your cart is empty</p>
+        <a href="{% url 'shop:product_list' %}" class="btn-continue">Continue Shopping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

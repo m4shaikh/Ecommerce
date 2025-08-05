@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="auth-card card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-user-plus me-2"></i>Create Account</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-user-tag me-2"></i>Username
+                            </label>
+                            {{ form.username }}
+                            <div class="invalid-feedback">
+                                Please choose a username
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-envelope me-2"></i>Email Address
+                            </label>
+                            {{ form.email }}
+                            <div class="invalid-feedback">
+                                Please enter a valid email address
+                            </div>
+                        </div>
+
+                        <!-- Account Type (Fixed) -->
+                        <div class="mb-4">
+                            <label class="form-label d-block">
+                                <i class="fas fa-users me-2"></i>Account Type
+                            </label>
+                            <div class="btn-group w-100" role="group">
+                                {% for choice in form.user_type.field.choices %}
+                                <input type="radio" 
+                                       class="btn-check" 
+                                       name="{{ form.user_type.name }}" 
+                                       id="user_type_{{ forloop.counter }}" 
+                                       value="{{ choice.0 }}"
+                                       {% if form.user_type.value == choice.0 %}checked{% endif %}>
+                                <label class="btn btn-outline-primary" for="user_type_{{ forloop.counter }}">
+                                    {{ choice.1 }}
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Passwords -->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-key me-2"></i>Password
+                            </label>
+                            {{ form.password1 }}
+                            <small class="form-text text-muted">
+                                At least 8 characters with a mix of letters, numbers, and symbols
+                            </small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-key me-2"></i>Confirm Password
+                            </label>
+                            {{ form.password2 }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-user-plus me-2"></i>Create Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Ensure the form fields match the Bootstrap theme */
+    input, select, textarea {
+        width: 100%;
+        padding: 12px;
+        margin-top: 6px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.2s ease-in-out;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #0d6efd;
+        outline: none;
+        box-shadow: 0 0 4px rgba(13, 110, 253, 0.5);
+    }
+
+    .btn-group .btn-outline-primary {
+        border-radius: 8px !important;
+        margin: 0 8px;
+        padding: 10px 20px;
+    }
+    
+    .btn-check:checked + .btn-outline-primary {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+
+    .form-text {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+    /* Ensure uniform spacing */
+    .mb-3, .mb-4 {
+        margin-bottom: 1.5rem !important;
+    }
+</style>
+{% endblock %}

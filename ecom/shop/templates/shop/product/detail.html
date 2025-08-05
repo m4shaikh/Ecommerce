@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Product Images -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="product-main-image">
+                    <img src="{{ product.image.url }}" 
+                         class="img-fluid rounded-3" 
+                         alt="{{ product.name }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h1 class="mb-3">{{ product.name }}</h1>
+                    <div class="d-flex align-items-center mb-4">
+                        <span class="h2 text-primary me-3">${{ product.price }}</span>
+                        <span class="badge bg-success fs-6">
+                            <i class="fas fa-box-open me-2"></i>{{ product.stock }} in stock
+                        </span>
+                    </div>
+                    
+                    <div class="seller-info mb-4">
+                        <h5 class="d-flex align-items-center">
+                            <i class="fas fa-store me-2"></i>
+                            Sold by: 
+                            <a href="#" class="text-decoration-none ms-2">
+                                {{ product.seller.username }}
+                            </a>
+                        </h5>
+                    </div>
+
+                    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label h5">Quantity:</label>
+                                <input type="number" 
+                                       name="quantity" 
+                                       class="form-control form-control-lg" 
+                                       value="1" 
+                                       min="1" 
+                                       max="{{ product.stock }}">
+                            </div>
+                            <div class="col-md-8 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="product-description">
+                        <h4 class="mb-3"><i class="fas fa-file-alt me-2"></i>Description</h4>
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                {{ product.description|linebreaks }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .product-main-image {
+        border-radius: 15px;
+        overflow: hidden;
+        background: #f8f9fa;
+        padding: 20px;
+    }
+
+    .product-main-image img {
+        max-height: 500px;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .seller-info {
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .product-description .card {
+        border: none;
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}

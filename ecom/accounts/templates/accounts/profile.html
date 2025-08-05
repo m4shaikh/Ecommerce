@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="profile-card card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-user-circle me-2"></i>Your Profile</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Profile Image -->
+                        <div class="text-center mb-4">
+                            <div class="profile-image-container mb-3">
+                                {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}" 
+                                         class="current-profile-image img-thumbnail"
+                                         alt="Current Profile Picture">
+                                {% else %}
+                                    <div class="text-muted">
+                                        <i class="fas fa-user-circle fa-5x"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="file-input-wrapper">
+                                <label for="id_profile_picture" class="btn btn-outline-primary">
+                                    <i class="fas fa-upload me-2"></i>Upload New Photo
+                                </label>
+                                {{ form.profile_picture }}
+                            </div>
+                        </div>
+
+                        <!-- Basic Information -->
+                        <div class="mb-4">
+                            <h4 class="mb-3"><i class="fas fa-info-circle me-2"></i>Basic Information</h4>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-user me-2"></i>Username
+                                </label>
+                                {{ form.username }}
+                                <div class="invalid-feedback">
+                                    Please enter a valid username.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-envelope me-2"></i>Email Address
+                                </label>
+                                {{ form.email }}
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Details -->
+                        <div class="mb-4">
+                            <h4 class="mb-3"><i class="fas fa-address-book me-2"></i>Contact Details</h4>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-phone me-2"></i>Phone Number
+                                </label>
+                                {{ form.phone_number }}
+                                <div class="invalid-feedback">
+                                    Please enter a valid phone number.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Address
+                                </label>
+                                {{ form.address }}
+                                <div class="invalid-feedback">
+                                    Please enter your address.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-card {
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .profile-card .card-header {
+        border-radius: 15px 15px 0 0 !important;
+        padding: 1.5rem;
+    }
+    
+    .profile-card .form-control {
+        border-radius: 8px;
+        padding: 0.75rem 1.25rem;
+    }
+    
+    .profile-card .btn {
+        border-radius: 8px;
+        padding: 0.75rem;
+    }
+    
+    .current-profile-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    
+    .profile-card h4 {
+        color: #333;
+        font-weight: 600;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .file-input-wrapper input[type="file"] {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+    
+    .profile-image-container {
+        display: inline-block;
+        position: relative;
+    }
+    
+    .profile-image-container img {
+        border: 3px solid #f0f0f0;
+    }
+</style>
+{% endblock %}
+
+
+
+

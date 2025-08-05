@@ -1,1 +1,22 @@
-'/venv'
+# Virtual environments
+venv/
+venv\
+# Python compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django specific files
+db.sqlite3
+local_settings.py
+media/
+staticfiles/
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.iml
+
+# System files
+.DS_Store
+Thumbs.db
