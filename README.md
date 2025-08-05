@@ -6,7 +6,7 @@
     SQLite DataBase (Default for Django)
     Stripe 
 
-**Accounts : **
+**Accounts :**
     1. Seller Account
         - Dashboard for seller account 
     2. Buyer Account
