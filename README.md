@@ -1,10 +1,10 @@
 **An ecom web-application.**
 
 **Stack used :**
-    Python(Django)
-    Django Templates
-    SQLite DataBase (Default for Django)
-    Stripe 
+    - Python(Django)
+    - Django Templates
+    - SQLite DataBase (Default for Django)
+    - Stripe 
 
 **Accounts :**
     1. Seller Account
