@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -140,9 +141,9 @@ EMAIL_PORT = 1025
 # Password Reset Settings
 PASSWORD_RESET_TIMEOUT = 14400  # 4 hours (in seconds)
 
-STRIPE_PUBLIC_KEY = 'pk_test_51R2hJ1P2XEvNgUo3ozutiMY5lZflMvGgcrdj3nmzQB7dExv4DZFCyMrD3D29vzZFG0DSwuIHtA5n3itg0b8E3b6b00JM05ZYRR'
-STRIPE_SECRET_KEY = 'sk_test_51R2hJ1P2XEvNgUo3kfA4YGjWqXENoT07BDgNwnvj1AVOozWhHdjiOUzU7OkCEbmYC3i20EZxWRQFFADvBeFarr5L00pAkAEy9E'
-STRIPE_WEBHOOK_SECRET = 'whsec_Afvgb0STZfDdCRWosC75LgRhQKPRHqQj'
+STRIPE_PUBLIC_KEY = os.environ.get('SPK')
+STRIPE_SECRET_KEY = os.environ.get('SSK')
+STRIPE_WEBHOOK_SECRET = os.environ.get('SWS')
 
 LOGGING = {
     'version': 1,
