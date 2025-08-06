@@ -7,7 +7,7 @@ __pycache__/
 *$py.class
 
 # Django specific files
-db.sqlite3
+
 local_settings.py
 media/
 staticfiles/
