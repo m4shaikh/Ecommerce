@@ -2,10 +2,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import seller_required
-from django.db.models import Q
+from django.db.models import Q, Count
 import random
+
 from .models import Product, Category
-from .forms import ProductForm
+from .forms import ProductForm, CategoryForm
 
 @login_required
 @seller_required
@@ -54,10 +55,13 @@ def product_delete(request, pk):
 
 def product_list(request, category_slug=None):
     category = None
-    categories = Category.objects.all()
+    # Only keep categories that have at least one product, limited to 20
+    categories = Category.objects.annotate(
+        product_count=Count('products', filter=Q(products__available=True))
+    ).filter(product_count__gt=0)[:20]
+    
     products = Product.objects.filter(available=True)
     
-    # Category filter
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
@@ -89,7 +93,6 @@ def product_list(request, category_slug=None):
     elif sort_by == 'newest':
         products = products.order_by('-created')
     else:
-        # Default: Randomize products on grid if no specific sort or search is applied
         products = list(products)
         random.shuffle(products)
 

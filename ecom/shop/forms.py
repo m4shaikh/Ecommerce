@@ -1,4 +1,6 @@
+
 from django import forms
+from django.utils.text import slugify
 from .models import Product, Category
 
 class ProductForm(forms.ModelForm):
@@ -33,10 +35,6 @@ class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['category'].queryset = Category.objects.all().order_by('name')
-
-from django import forms
-from django.utils.text import slugify
-from .models import Product, Category
 
 
 class CategoryForm(forms.ModelForm):
