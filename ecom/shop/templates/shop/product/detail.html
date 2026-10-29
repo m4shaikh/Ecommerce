@@ -3,19 +3,22 @@
 
 {% block content %}
 <div class="container py-5">
-    <div class="row g-5">
+    <div class="row g-5 align-items-start">
+        
         <!-- Product Images -->
         <div class="col-lg-6">
             <div class="card shadow-sm border-0">
-                <div class="product-main-image">
-                    <img src="{{ product.image.url }}" 
-                         class="img-fluid rounded-3" 
-                         alt="{{ product.name }}">
+                <div class="product-main-image text-center">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/600x600?text=No+Image" class="img-fluid rounded shadow-sm" alt="No image available">
+                    {% endif %}
                 </div>
             </div>
         </div>
 
-        <!-- Product Info -->
+        <!-- Product Info (Now a direct sibling column) -->
         <div class="col-lg-6">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
@@ -26,11 +29,10 @@
                             <i class="fas fa-box-open me-2"></i>{{ product.stock }} in stock
                         </span>
                     </div>
-                    
+
                     <div class="seller-info mb-4">
-                        <h5 class="d-flex align-items-center">
-                            <i class="fas fa-store me-2"></i>
-                            Sold by: 
+                        <h5 class="d-flex align-items-center mb-0">
+                            <i class="fas fa-store me-2"></i> Sold by: 
                             <a href="#" class="text-decoration-none ms-2">
                                 {{ product.seller.username }}
                             </a>
@@ -41,13 +43,8 @@
                         {% csrf_token %}
                         <div class="row g-3 mb-4">
                             <div class="col-md-4">
-                                <label class="form-label h5">Quantity:</label>
-                                <input type="number" 
-                                       name="quantity" 
-                                       class="form-control form-control-lg" 
-                                       value="1" 
-                                       min="1" 
-                                       max="{{ product.stock }}">
+                                <label class="form-label fw-bold">Quantity:</label>
+                                <input type="number" name="quantity" class="form-control form-control-lg" value="1" min="1" max="{{ product.stock }}">
                             </div>
                             <div class="col-md-8 d-flex align-items-end">
                                 <button type="submit" class="btn btn-primary btn-lg w-100">
@@ -68,6 +65,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 

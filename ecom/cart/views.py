@@ -54,10 +54,10 @@ def add_cart(request, product_id):
             cart_item.save()
     
     return redirect('cart:cart_detail')
-# ... keep remove_cart and full_remove views as before ...
+
 
 def remove_cart(request, product_id):
-    cart = Cart.objects.get(cart_id=_get_or_create_cart(request))
+    cart = _get_or_create_cart(request)
     product = get_object_or_404(Product, id=product_id)
     cart_item = CartItem.objects.get(product=product, cart=cart)
     
@@ -70,7 +70,7 @@ def remove_cart(request, product_id):
     return redirect('cart:cart_detail')
 
 def full_remove(request, product_id):
-    cart = Cart.objects.get(cart_id=_get_or_create_cart(request))
+    cart = _get_or_create_cart(request)
     product = get_object_or_404(Product, id=product_id)
     cart_item = CartItem.objects.get(product=product, cart=cart)
     cart_item.delete()
