@@ -16,3 +16,7 @@ class CustomUser(AbstractUser):
     address = models.TextField(blank=True)
     def __str__(self):
         return self.username
+
+    @property
+    def is_seller(self):
+        return self.user_type == 'seller'
